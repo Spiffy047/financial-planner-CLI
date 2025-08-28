@@ -1,84 +1,94 @@
 Finance Tracker CLI
 
-This is a simple command-line tool for tracking personal finances. It lets you quickly log your income and expenses, review your recent transactions, and get a monthly summary of your spending.
+A command-line tool for personal finance management. This application provides a simple and efficient way to track income and expenses, helping users stay on top of their financial goals.
 
-The app is built in Python and uses SQLAlchemy ORM to manage a local database, with Alembic handling database migrations.
+The project is built on a robust backend using Python and SQLAlchemy ORM for database interactions, with Alembic handling all database migrations.
 
-Features
+ Features
 
-    Add new transactions: Record an income or an expense with an amount, category, and description.
+    Add Transactions: Easily log new income and expense entries.
 
-    View recent transactions: See the last 10 transactions you've logged.
+    View Transactions: Quickly see a summary of your most recent transactions.
 
-    Generate monthly reports: Get a summary showing your total income, expenses, and net balance for any given month.
+    Update & Delete: Modify or remove entries to keep your records accurate.
 
-    Update existing transactions: Modify an existing transaction's details.
+    Monthly Summary: Generate a detailed report of your total income, expenses, and net balance for any given month.
 
-    Delete transactions: Remove a transaction from your records.
+Get Started
 
-Setup
+Follow these steps to set up and run the application on your local machine.
 
-To get this running on your local machine, follow these steps:
+Installation
 
-    Clone the project:
+    Clone the repository:
     Bash
 
 git clone <your-repository-url>
 cd finance_tracker
 
 Install dependencies:
-This project uses pipenv. If you don't have it, install it first with pip install pipenv, then run:
+This project uses pipenv to manage dependencies. If you don't have it, you can install it with pip install pipenv.
 Bash
 
 pipenv install
 
-Set up the database:
-The database schema is managed with Alembic. Run the following command to create the necessary tables:
+Run database migrations:
+This command will set up your database and create all the necessary tables.
 Bash
 
     pipenv run alembic upgrade head
 
-How to Use
+Usage
 
-All commands are run with pipenv run python -m bin.cli. Here are a few examples:
+All commands are executed using pipenv run python -m bin.cli.
 
-Add a new transaction
+Add a Transaction
 
-    For an expense:
+To add an entry, use the add command.
+
+    Example (Expense):
     Bash
 
-pipenv run python -m bin.cli add --amount 55 --type expense --category "Groceries" --desc "Weekly food shopping"
+pipenv run python -m bin.cli add --amount 45.75 --type expense --category "Food" --desc "Lunch with a friend"
 
-For income:
+Example (Income):
 Bash
 
-    pipenv run python -m bin.cli add --amount 2500 --type income --category "Freelance" --desc "Project payment"
+    pipenv run python -m bin.cli add --amount 1500 --type income --category "Freelance" --desc "Consulting project payment"
 
-Check recent activity
+View Recent Transactions
 
-    Simply run the view-recent command to see your latest 10 transactions and their IDs.
-    Bash
+Use the view-recent command to see the 10 most recent transactions.
+Bash
 
-    pipenv run python -m bin.cli view-recent
+pipenv run python -m bin.cli view-recent
 
-Update a transaction
+Update a Transaction
 
-    Use the transaction's ID to modify it. You only need to specify the fields you want to change.
-    Bash
+Use the transaction's ID to update its details. You can update one or more fields at a time.
+Bash
 
-    pipenv run python -m bin.cli update 1 --amount 60 --desc "Weekly shopping plus drinks"
+# Update the amount and description for transaction ID 1
+pipenv run python -m bin.cli update 1 --amount 50 --desc "Lunch with a friend, drinks included"
 
-Delete a transaction
+Delete a Transaction
 
-    Use the transaction's ID to permanently delete it from the database.
-    Bash
+To permanently remove a transaction, use the delete command with its ID.
+Bash
 
-    pipenv run python -m bin.cli delete 1
+pipenv run python -m bin.cli delete 1
 
-Get a monthly summary
+Get a Monthly Summary
 
-    Specify the month and year to see your financial summary.
-    Bash
+To see a breakdown of your finances for a specific month, use the summary command.
+Bash
 
-    pipenv run python -m bin.cli summary --month 8 --year 2025
+pipenv run python -m bin.cli summary --month 12 --year 2024
 
+👤 Author
+
+    Joe Kariuki
+
+    GitHub: @Spiffy047
+
+    Email: mwanikijoe1@gmail.com
