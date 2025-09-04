@@ -1,6 +1,7 @@
+# lib/core.py
 
 from sqlalchemy import func
-from .models import Transaction, Category
+from .models import Transaction, Category, Budget
 from .database import Session
 from datetime import datetime
 import click
@@ -107,3 +108,47 @@ def delete_transaction(transaction_id):
     session.commit()
     session.close()
     return True
+
+def add_budget(category_name, limit, month, year):
+    """Adds a budget for a given category."""
+    session = Session()
+    category = session.query(Category).filter_by(name=category_name).first()
+    if not category:
+        session.close()
+        return "Category not found."
+
+    budget = session.query(Budget).filter_by(category_id=category.id, month=month, year=year).first()
+    if budget:
+        budget.limit = limit
+        session.commit()
+        session.close()
+        return "Budget updated."
+    else:
+        new_budget = Budget(category=category, limit=limit, month=month, year=year)
+        session.add(new_budget)
+        session.commit()
+        session.close()
+        return "Budget added."
+
+def get_budget_status(category_name, month, year):
+    """Checks spending against a budget for a given category."""
+    session = Session()
+    category = session.query(Category).filter_by(name=category_name).first()
+    if not category:
+        session.close()
+        return (None, None, "Category not found.")
+
+    budget = session.query(Budget).filter_by(category_id=category.id, month=month, year=year).first()
+    if not budget:
+        session.close()
+        return (None, None, "No budget found for this category and month.")
+
+    total_spent = session.query(func.sum(Transaction.amount)).filter(
+        Transaction.category_id == category.id,
+        func.strftime('%Y-%m', Transaction.date) == f"{year}-{month:02}",
+        Transaction.type == 'expense'
+    ).scalar() or 0
+
+    remaining = budget.limit - total_spent
+    session.close()
+    return (budget.limit, total_spent, remaining)

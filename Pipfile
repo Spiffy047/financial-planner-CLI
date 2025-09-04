@@ -1,12 +1,13 @@
 [[source]]
-name = "pypi"
 url = "https://pypi.org/simple"
 verify_ssl = true
+name = "pypi"
 
 [packages]
-sqlalchemy = "*"
-click = "*"
+sqlalchemy = "==2.0.43"
 alembic = "*"
+click = "*"
+python-dotenv = "*"
 
 [dev-packages]
 
